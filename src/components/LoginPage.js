@@ -12,6 +12,7 @@ import LockIcon from "@material-ui/icons/LockOutlined";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
+import {API_URL} from "../constants"
 
 const styles = theme => ({
   layout: {
@@ -52,7 +53,7 @@ const LoginPage = (props) => {
   const loginSuccessful = (e) => {
     e.preventDefault()
     console.log(e.target[0].value)
-    fetch('http://localhost:3000/login', {
+    fetch(`${API_URL}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

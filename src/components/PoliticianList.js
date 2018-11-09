@@ -2,9 +2,10 @@ import React, { Component, Fragment } from 'react'
 import Politician from "./Politician"
 import WarpCable from 'warp-cable-client'
 import politicianListStyles from "../styles/PoliticianList.css"
+import { API_URL } from "../constants"
 
 
-const API_DOMAIN = `http://localhost:3000/cable`
+const API_DOMAIN = `${API_URL}/cable`
 let api = WarpCable(API_DOMAIN)
 
 class PoliticianList extends Component {
@@ -25,7 +26,7 @@ class PoliticianList extends Component {
       this.setState({ filteredPoliticianList: politicians})
     })
 
-    fetch('http://localhost:3000/user_politicians', {
+    fetch(`${API_URL}/user_politicians`, {
       headers: {
         "Authorization": `Bearer ${localStorage.token}`
       }
@@ -59,7 +60,7 @@ class PoliticianList extends Component {
       x.upvote_toggled = true 
       x.downvote_toggled = false
     }
-    fetch(`http://localhost:3000/user_politicians/${x.id}`, {
+    fetch(`${API_URL}/user_politicians/${x.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -99,7 +100,7 @@ class PoliticianList extends Component {
       x.upvote_toggled = false
       x.downvote_toggled = true
     }
-    fetch(`http://localhost:3000/user_politicians/${x.id}`, {
+    fetch(`${API_URL}/user_politicians/${x.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
