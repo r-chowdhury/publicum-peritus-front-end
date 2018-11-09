@@ -1,0 +1,21 @@
+.Profile-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.fields {
+  text-align: right
+}
+
+.attributes {
+  text-align: left
+}
+
+#votes {
+  transform: translate(0, 50%)
+}
+
+#counter {
+  transform: translate(10%, 0)
+}
