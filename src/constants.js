@@ -1,4 +1,2 @@
-const API_URL = process.env.REACT_APP_API_URL
-const API_KEY = process.env.API_KEY
-
-export {API_URL, API_KEY}
+export const API_URL = process.env.REACT_APP_API_URL;
+export const GMAPS_API_KEY = process.env.REACT_APP_GMAPS_API_KEY;

@@ -7,7 +7,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import {API_URL, API_KEY} from "../constants.js"
+import { API_URL, GMAPS_API_KEY } from "../constants.js"
 import Script from 'react-load-script'
 
 
@@ -83,14 +83,14 @@ class SignUpPage extends Component {
   }
 
   handleScriptLoad = () => {
-    // Declare Options For Autocomplete 
+    // Declare Options For Autocomplete
     var options = { types: ["address"] };
 
     this.autocomplete = new google.maps.places.Autocomplete(
-      document.getElementById('autocomplete'),
+      document.getElementById('address'),
       options,
     );
-    // Initialize Google Autocomplete 
+    // Initialize Google Autocomplete
     /*global google*/
     // Fire Event when a suggested name is selected
     this.autocomplete.addListener('place_changed',
@@ -119,6 +119,10 @@ class SignUpPage extends Component {
   render() {
   return (
     <Fragment>
+      <Script
+        url={`https://maps.googleapis.com/maps/api/js?key=${GMAPS_API_KEY}&libraries=places`}
+        onLoad={this.handleScriptLoad}
+      />
       <CssBaseline />
       <main className={this.props.classes.layout}>
         <Paper className={this.props.classes.paper}>
@@ -160,10 +164,6 @@ class SignUpPage extends Component {
                 autoComplete="current-password"
               />
             </FormControl>
-            <Script 
-              url={`https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places`}
-              onLoad={this.handleScriptLoad}
-            /> 
             <FormControl id="autocomplete" margin="normal" required fullWidth>
               <InputLabel htmlFor="address">Address (House Number with Street)</InputLabel>
               <Input
