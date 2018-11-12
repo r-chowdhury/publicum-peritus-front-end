@@ -68,10 +68,10 @@ const LoginPage = (props) => {
     })
       .then(resp => resp.json())
       .then(data_with_token => {
-        console.log('AFTER LOGIN', data_with_token.user.name, data_with_token.user.id)
+        console.log('AFTER LOGIN', data_with_token)
         if (!!data_with_token.jwt) {
-          localStorage.name = data_with_token.user.name
-          localStorage.user_id = data_with_token.user.id
+          localStorage.name = data_with_token.name
+          localStorage.user_id = data_with_token.id
           localStorage.token = data_with_token.jwt;
         } else {
           localStorage.token = "undefined"
