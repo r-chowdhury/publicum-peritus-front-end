@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {Component, Fragment} from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
@@ -8,7 +7,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { API_URL } from "../constants"
+import {API_URL, API_KEY} from "../constants.js"
+import Script from 'react-load-script'
 
 
 const styles = theme => ({
@@ -43,10 +43,17 @@ const styles = theme => ({
   },
 });
 
-function SignUpPage(props) {
-  const { classes } = props;
+class SignUpPage extends Component {
+  constructor(props) {
+    super(props);
 
-  const createUserProfile = e => {
+    this.state = {
+      city: '',
+      query: ''
+    };
+  }
+
+  createUserProfile = e => {
     e.preventDefault()
     const name = e.target[0].value
     fetch(`${API_URL}/users`, {
@@ -70,21 +77,55 @@ function SignUpPage(props) {
     .then(resp => resp.json())
     .then(signedUpUser => {
       localStorage.token = signedUpUser.jwt
-      props.changeIsSignedUp(name, signedUpUser.user.id)
+      this.props.changeIsSignedUp(name, signedUpUser.user.id)
     })
 
   }
 
+  handleScriptLoad = () => {
+    // Declare Options For Autocomplete 
+    var options = { types: ["address"] };
 
+    this.autocomplete = new google.maps.places.Autocomplete(
+      document.getElementById('autocomplete'),
+      options,
+    );
+    // Initialize Google Autocomplete 
+    /*global google*/
+    // Fire Event when a suggested name is selected
+    this.autocomplete.addListener('place_changed',
+      this.handlePlaceSelect);
+  }
+
+  handlePlaceSelect = () => {
+
+    // Extract City From Address Object
+    let addressObject = this.autocomplete.getPlace();
+    let address = addressObject.address_components;
+
+    // Check if address is valid
+    if (address) {
+      // Set State
+      this.setState(
+        {
+          city: address[0].long_name,
+          query: addressObject.formatted_address,
+        }
+      );
+    }
+  }
+
+
+  render() {
   return (
-    <React.Fragment>
+    <Fragment>
       <CssBaseline />
-      <main className={classes.layout}>
-        <Paper className={classes.paper}>
+      <main className={this.props.classes.layout}>
+        <Paper className={this.props.classes.paper}>
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <form className={classes.form} onSubmit={createUserProfile}>
+          <form className={this.props.classes.form} onSubmit={this.createUserProfile}>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="name">Full Name</InputLabel>
               <Input id="name" name="name" autoFocus />
@@ -103,15 +144,6 @@ function SignUpPage(props) {
               />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="password">Confirm Password</InputLabel>
-              <Input
-                name="password2"
-                type="password"
-                id="password2"
-                autoComplete="current-password"
-              />
-            </FormControl>
-            <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="address">Address (House Number with Street)</InputLabel>
               <Input
                 name="address"
@@ -120,6 +152,27 @@ function SignUpPage(props) {
               />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
+              <InputLabel htmlFor="password">Confirm Password</InputLabel>
+              <Input
+                name="password2"
+                type="password"
+                id="password2"
+                autoComplete="current-password"
+              />
+            </FormControl>
+            <Script 
+              url={`https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places`}
+              onLoad={this.handleScriptLoad}
+            /> 
+            <FormControl id="autocomplete" margin="normal" required fullWidth>
+              <InputLabel htmlFor="address">Address (House Number with Street)</InputLabel>
+              <Input
+                name="address"
+                type="address"
+                id="address"
+              />
+            </FormControl>
+            <FormControl>
               <InputLabel htmlFor="City">City</InputLabel>
               <Input
                 name="City"
@@ -149,19 +202,17 @@ function SignUpPage(props) {
               fullWidth
               variant="contained"
               color="primary"
-              className={classes.submit}
+              className={this.props.classes.submit}
             >
               Sign Up
             </Button>
           </form>
         </Paper>
       </main>
-    </React.Fragment>
+    </Fragment>
   );
+  }
 }
 
-SignUpPage.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(SignUpPage);
