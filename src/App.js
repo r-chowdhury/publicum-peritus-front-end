@@ -36,7 +36,6 @@ class App extends Component {
   }
 
   logOutClick = () => {
-    // localStorage.isLoggedOut = "true"
     this.setState({
       isLoggingIn: false,
       isSigningUp: false,

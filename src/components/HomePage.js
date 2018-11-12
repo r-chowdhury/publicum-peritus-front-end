@@ -10,7 +10,7 @@ class HomePage extends Component {
           <h2>Publicum Peritus</h2>
           <p>Sign up today to see who represents you!</p>
           <div className="actions">
-            <a href="#" className="button" onClick={e => this.props.handleClick(e)}>Create An Account</a>
+            <a href="#" className="button" id="create-button" onClick={e => this.props.handleClick(e)}>Create An Account</a>
             <a href="#" className="button" onClick={e => this.props.handleClick(e)}>Sign In</a>
           </div>
           </div>

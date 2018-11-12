@@ -62,7 +62,11 @@ body{
 		text-align: center;
 		text-decoration: none;
 		white-space: nowrap;
-	}
+  }
+  
+  #create-button {
+    margin-right: 150px
+  }
 
   #banner .button {
     background-color: transparent;
@@ -70,6 +74,8 @@ body{
     font-weight: 300;
     font-size: 2vw;
   }
+
+
 
   #banner .button:hover {
     background-color: rgba(255, 255, 255, 0.2);
