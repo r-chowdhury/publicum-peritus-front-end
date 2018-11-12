@@ -54,6 +54,7 @@ class SignUpPage extends Component {
 
   createUserProfile = e => {
     e.preventDefault()
+    debugger
     const name = e.target[0].value
     fetch(`${API_URL}/users`, {
       method: "POST",
@@ -66,7 +67,7 @@ class SignUpPage extends Component {
           name: e.target[0].value,
           email: e.target[1].value,
           password: e.target[2].value,
-          fullAddress: this.state.fullAddress,
+          full_address: e.target[4].value
         }
       })
     })
