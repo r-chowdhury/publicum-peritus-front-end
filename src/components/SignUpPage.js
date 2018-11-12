@@ -48,8 +48,7 @@ class SignUpPage extends Component {
     super(props);
 
     this.state = {
-      city: '',
-      query: ''
+      fullAddress: ""
     };
   }
 
@@ -67,10 +66,7 @@ class SignUpPage extends Component {
           name: e.target[0].value,
           email: e.target[1].value,
           password: e.target[2].value,
-          address: e.target[4].value,
-          city: e.target[5].value,
-          state: e.target[6].value,
-          zip: e.target[7].value
+          fullAddress: this.state.fullAddress,
         }
       })
     })
@@ -101,15 +97,15 @@ class SignUpPage extends Component {
 
     // Extract City From Address Object
     let addressObject = this.autocomplete.getPlace();
-    let address = addressObject.address_components;
-
+    let addressArray = addressObject.formatted_address.split(" ");
+    addressArray.splice(addressArray.length-1, 1)
+    let formattedAddress = addressArray.join(" ")
     // Check if address is valid
-    if (address) {
+    if (formattedAddress) {
       // Set State
       this.setState(
         {
-          city: address[0].long_name,
-          query: addressObject.formatted_address,
+          fullAddress: formattedAddress
         }
       );
     }
@@ -144,15 +140,6 @@ class SignUpPage extends Component {
                 name="password"
                 type="password"
                 id="password"
-                autoComplete="current-password"
-              />
-            </FormControl>
-            <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="address">Address (House Number with Street)</InputLabel>
-              <Input
-                name="address"
-                type="address"
-                id="address"
               />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
@@ -161,7 +148,6 @@ class SignUpPage extends Component {
                 name="password2"
                 type="password"
                 id="password2"
-                autoComplete="current-password"
               />
             </FormControl>
             <FormControl id="autocomplete" margin="normal" required fullWidth>
@@ -170,31 +156,6 @@ class SignUpPage extends Component {
                 name="address"
                 type="address"
                 id="address"
-              />
-            </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="City">City</InputLabel>
-              <Input
-                name="City"
-                type="City"
-                id="City"
-                autoComplete="current-password"
-              />
-            </FormControl>
-            <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="State">State</InputLabel>
-              <Input
-                name="State"
-                type="State"
-                id="State"
-              />
-            </FormControl>
-            <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="Zip Code">Zip Code</InputLabel>
-              <Input
-                name="Zip Code"
-                type="Zip Code"
-                id="Zip Code"
               />
             </FormControl>
             <Button
