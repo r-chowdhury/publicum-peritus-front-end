@@ -13,6 +13,7 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import {API_URL} from "../constants"
+import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
 
 const styles = theme => ({
   layout: {
@@ -68,19 +69,14 @@ const LoginPage = (props) => {
     })
       .then(resp => resp.json())
       .then(data_with_token => {
-        console.log('AFTER LOGIN', data_with_token)
         if (!!data_with_token.jwt) {
           localStorage.name = data_with_token.name
           localStorage.user_id = data_with_token.id
           localStorage.token = data_with_token.jwt;
         } else {
-          localStorage.token = "undefined"
+          localStorage.clear()
         }
-      })
-      .then(() => {
-        if (localStorage.token !== "undefined") {
-          props.changeLoginState()
-        }
+        props.history.push('/politicians')
       })
   }
 

@@ -1,5 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import homePageStyles from "../styles/HomePage.css"
+import {Link} from 'react-router-dom'
+import Button from '@material-ui/core/Button';
+
 
 class HomePage extends Component {
   render () {
@@ -9,10 +12,22 @@ class HomePage extends Component {
           <div style={{transform: 'translate(0,50%)'}}>
           <h2>Publicum Peritus</h2>
           <p>Sign up today to see who represents you!</p>
-          <div className="actions">
-            <a href="#" className="button" id="create-button" onClick={e => this.props.handleClick(e)}>Create An Account</a>
-            <a href="#" className="button" onClick={e => this.props.handleClick(e)}>Sign In</a>
-          </div>
+            <div className="actions">
+              <Link to="/signup">
+                  <a className="button" 
+                    id="create-button" 
+                    onClick={e => this.props.handleClick(e)}>
+                    Create An Account
+                  </a>
+              </Link>
+
+              <Link to="/login">
+                <a className="button" 
+                  onClick={e => this.props.handleClick(e)}>
+                  Sign In
+                </a>
+              </Link>
+            </div>
           </div>
         </section>
     </div>

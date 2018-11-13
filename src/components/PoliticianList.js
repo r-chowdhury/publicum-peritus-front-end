@@ -23,6 +23,7 @@ class PoliticianList extends Component {
     api.subscribe('Politicians', 'index', {
       'Authorization':`Bearer ${localStorage.token}`
     }, politicians => {
+      
       this.setState({ filteredPoliticianList: politicians})
     })
 

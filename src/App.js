@@ -4,13 +4,14 @@ import LoginPage from "./components/LoginPage"
 import SignUpPage from "./components/SignUpPage"
 import PoliticianList from "./components/PoliticianList"
 import PoliticianListAppBar from "./components/PoliticianListAppBar"
+import { BrowserRouter, Route, Redirect, withRouter, Link } from "react-router-dom";
+
 
 class App extends Component {
   constructor() {
     super()
     this.state = {
-      isLoggingIn: false,
-      isSigningUp: false,
+
     }
   }
 
@@ -28,51 +29,49 @@ class App extends Component {
     }
   }
 
-  changeLoginState = () => {
-    this.setState({
-      isLoggingIn: false
-    })
-    localStorage.isLoggedOut = false
-  }
-
   logOutClick = () => {
-    this.setState({
-      isLoggingIn: false,
-      isSigningUp: false,
-    })
     localStorage.clear()
+    this.props.history.push('/')
   }
 
-  changeIsSignedUp = (name, id) => {
+  isSignedUp = (name, id) => {
     localStorage.user_id = id
     localStorage.name = name
-    this.setState({
-      isSigningUp: false,
-      isLoggingIn: false
-    })
-
   }
+
+    PoliticianListPage = () => {
+      return(
+        <React.Fragment>
+          <PoliticianListAppBar logOutClick={this.logOutClick} />
+          <PoliticianList />
+        </React.Fragment>
+      )
+    }
 
   render() {
-    if (this.state.isLoggingIn === false && this.state.isSigningUp === false && !!localStorage.token === false) {
-      return (
-        <div>
-          <HomePage handleClick={this.handleClick}/>
-        </div>
-      )
-    } else if (this.state.isLoggingIn === true && this.state.isSigningUp === false) {
-      return (<LoginPage changeLoginState={this.changeLoginState}/>)
-    } else if (this.state.isSigningUp === true && this.state.isLoggingIn === false) {
-      return (<SignUpPage changeIsSignedUp={this.changeIsSignedUp}/>)
-    } else if (!!localStorage.token === true)  {
-      return (
-        <div>
-          <PoliticianListAppBar logOutClick={this.logOutClick}/>
-          <PoliticianList userPoliticianList={this.state.userPoliticianList}/>
-        </div>
-      )}
-    
+    return (
+      <div>
+        <Route exact path="/" render={(props) => {
+          return <HomePage handleClick={this.handleClick} {...props}/>
+        }}/>
+        <Route exact path="/SignUp" render={(props) => {
+          return <SignUpPage {...props} />
+        }} />
+        <Route exact path="/login" render={(props) => {
+          return <LoginPage {...props}/>
+        }}/>
+        <Route path="/politicians" render={() => {
+          return !!localStorage.token === true ? 
+            this.PoliticianListPage()
+          :
+            <Redirect to="/login"/>
+          } 
+        }/>
+      </div>
+    )
   }
+
+
 
 }
 
