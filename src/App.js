@@ -34,19 +34,14 @@ class App extends Component {
     this.props.history.push('/')
   }
 
-  isSignedUp = (name, id) => {
-    localStorage.user_id = id
-    localStorage.name = name
+  PoliticianListPage = () => {
+    return(
+      <React.Fragment>
+        <PoliticianListAppBar logOutClick={this.logOutClick} />
+        <PoliticianList />
+      </React.Fragment>
+    )
   }
-
-    PoliticianListPage = () => {
-      return(
-        <React.Fragment>
-          <PoliticianListAppBar logOutClick={this.logOutClick} />
-          <PoliticianList />
-        </React.Fragment>
-      )
-    }
 
   render() {
     return (
