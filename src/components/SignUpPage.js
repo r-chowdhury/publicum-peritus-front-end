@@ -76,7 +76,8 @@ class SignUpPage extends Component {
     .then(resp => resp.json())
     .then(signedUpUser => {
       localStorage.token = signedUpUser.jwt
-      this.props.changeIsSignedUp(name, signedUpUser.id)
+      localStorage.name = signedUpUser.name
+      this.props.history.push('/politicians')
     })
 
   }
