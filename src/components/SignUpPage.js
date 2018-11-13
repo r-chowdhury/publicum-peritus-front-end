@@ -9,6 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { API_URL, GMAPS_API_KEY } from "../constants.js"
 import Script from 'react-load-script'
+// import _ from 'lodash'
+// npm i --save lodash
 
 
 const styles = theme => ({
@@ -50,11 +52,11 @@ class SignUpPage extends Component {
     this.state = {
       fullAddress: ""
     };
+    // this.handleScriptLoad = _.debounce(this.handleScriptLoad, 200)
   }
 
   createUserProfile = e => {
     e.preventDefault()
-    debugger
     const name = e.target[0].value
     fetch(`${API_URL}/users`, {
       method: "POST",
