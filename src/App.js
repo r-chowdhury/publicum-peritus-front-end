@@ -4,7 +4,7 @@ import LoginPage from "./components/LoginPage"
 import SignUpPage from "./components/SignUpPage"
 import PoliticianList from "./components/PoliticianList"
 import PoliticianListAppBar from "./components/PoliticianListAppBar"
-import { BrowserRouter, Route, Redirect, withRouter, Link } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 
 
 class App extends Component {
